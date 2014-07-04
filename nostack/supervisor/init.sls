@@ -37,6 +37,11 @@ python-virtualenv:
       - group
       - mode
 
+/var/log/supervisor:
+  file.directory:
+    - user: root
+    - group: root
+
 supervisor.conf:
   file.managed:
     - name: {{ supervisor.config }}
