@@ -1,0 +1,31 @@
+{% from "nostack/postgres/map.jinja" import postgres with context %}
+
+# environments
+data_directory = '{{ postgres.data_directory }}'
+hba_file = '{{ postgres.data_directory }}/pg_hba.conf'
+ident_file = '{{ postgres.data_directory }}/pg_ident.conf'
+external_pid_file = '/var/run/postgresql/{{ postgres.major_version }}-nostack.pid'
+unix_socket_directory = '/var/run/postgresql'
+
+# networks
+listen_addresses = '{{ salt['pillar.get']('postgres:listen', '127.0.0.1') }}'
+port = {{ salt['pillar.get']('postgres:port', '5432') }}
+max_connections = {{ salt['pillar.get']('postgres:max_connections', '100') }}
+
+# memories
+shared_buffers = {{ salt['pillar.get']('postgres:port', '24MB') }}
+effective_cache_size = {{ salt['pillar.get']('postgres:port', '128MB') }}
+
+# logs
+log_destination = 'stderr'
+log_line_prefix = '%t '
+log_duration = on
+log_min_duration_statement = {{ salt['pillar.get']('postgres:log_min_duration_statement', '100') }}
+
+# locales
+datestyle = 'iso, ymd'
+lc_messages = 'en_US.UTF-8'
+lc_monetary = 'en_US.UTF-8'
+lc_numeric = 'en_US.UTF-8'
+lc_time = 'en_US.UTF-8'
+default_text_search_config = 'pg_catalog.english'

@@ -1,0 +1,4 @@
+{% set nostack = salt['grains.filter_by']({
+    'RedHat': {},
+    'Debian': {},
+}, merge=salt['pillar.get']('nostack:lookup')) %}

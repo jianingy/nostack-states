@@ -1,0 +1,9 @@
+{%- from "coreops/common.jinja" import coreops with context -%}
+[program:postgres]
+user=postgres
+group=postgres
+command={{ coreops.root }}/postgresql/bin/postgres -D {{ postgres.data_directory }} -c config_file="/etc/postgres/{{ postgres.major_version }}/nostack/postgresql.conf"
+autostart=true
+autorestart=true
+redirect_stderr=false
+stopsignal=QUIT

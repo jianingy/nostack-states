@@ -1,0 +1,9 @@
+{% from "nostack/supervisor/map.jinja" import supervisor with context %}
+
+description "supervisor"
+
+start on runlevel [2345]
+stop on runlevel [!2345]
+
+respawn
+exec {{ supervisor.root }}/bin/supervisord --nodaemon --configuration {{ supervisor.config }}
