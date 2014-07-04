@@ -76,6 +76,9 @@ initdb:
     - template: jinja
 
 postgresql-server:
-  supervisord.running
-  require:
-    - file: {{ supervisor.config_directory }}/postgresql-server.conf
+  supervisord:
+    - running
+    - bin_env: {{ supervisor.root }}
+    - conf_file: {{ supervisor.config }}
+    - require:
+      - file: {{ supervisor.config_directory }}/postgresql-server.conf
