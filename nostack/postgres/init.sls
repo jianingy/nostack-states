@@ -47,9 +47,23 @@ postgresql.conf:
     - user: postgres
     - group: postgres
 
+conf_directory:
+  file.directory:
+    - name: /etc/postgres/{{ postgres.major_version }}/nostack
+    - user: postgres
+    - group: postgres
+    - makedirs: true
+
 log_directory:
   file.directory:
     - name: {{ postgres.log_directory }}
+    - user: postgres
+    - group: postgres
+    - makedirs: true
+
+run_directory:
+  file.directory:
+    - name: {{ postgres.run_directory }}
     - user: postgres
     - group: postgres
     - makedirs: true

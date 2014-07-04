@@ -5,7 +5,7 @@ data_directory = '{{ postgres.data_directory }}'
 hba_file = '{{ postgres.data_directory }}/pg_hba.conf'
 ident_file = '{{ postgres.data_directory }}/pg_ident.conf'
 external_pid_file = '/var/run/postgresql/{{ postgres.major_version }}-nostack.pid'
-unix_socket_directory = '/var/run/postgresql'
+unix_socket_directories = '/var/run/postgresql'
 
 # networks
 listen_addresses = '{{ salt['pillar.get']('postgres:listen', '127.0.0.1') }}'
