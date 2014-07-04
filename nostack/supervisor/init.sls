@@ -1,5 +1,8 @@
 {% from "nostack/supervisor/map.jinja" import supervisor with context %}
 
+python-virtualenv:
+  pkg.installed
+
 {{ supervisor.root }}:
   virtualenv.managed:
     - system_site_packages: False
