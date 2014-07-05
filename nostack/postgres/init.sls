@@ -1,27 +1,11 @@
 {% from "nostack/postgres/map.jinja" import postgres with context %}
 {% from "nostack/supervisor/map.jinja" import supervisor with context %}
 
-{% if salt['grains.get']('os_family') in 'RedHat' %}
-{% set osarch = salt['grains.get']('osarch') %}
-repo-release:
-  pkg.installed:
-    - sources:
-      - pgdg: "http://yum.postgresql.org/{{ postgres.major_version }}/redhat/rhel-6-{{osarch}}/pgdg-centos93-9.3-1.noarch.rpm"
-{% endif %}
-
 postgresql:
   pkg.installed:
     - refresh: False
+    - fromrepo: pgdg93
     - name: {{ postgres.package }}
-  service:
-    - running
-    - enable: true
-    - name: {{ postgres.service }}
-    - require:
-      - pkg: {{ postgres.package }}
-    - watch:
-      - file: pg_hba.conf
-      - file: postgresql.conf
 
 postgres:
   user.present:
@@ -89,10 +73,19 @@ initdb:
     - source: salt://nostack/postgres/files/run.conf.template
     - template: jinja
 
+/etc/init.d/postgresql-9.3:
+  file.managed:
+    - mode: 400
+
 postgresql-server:
   supervisord:
     - running
+    - update: True
     - bin_env: {{ supervisor.root }}
     - conf_file: {{ supervisor.config }}
     - require:
       - file: {{ supervisor.config_directory }}/postgresql-server.conf
+      - pkg: {{ postgres.package }}
+    - watch:
+      - file: pg_hba.conf
+      - file: postgresql.conf

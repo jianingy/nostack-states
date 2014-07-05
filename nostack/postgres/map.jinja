@@ -1,12 +1,13 @@
+{% set major_version = '9.3' %}
 {% set postgres = salt['grains.filter_by']({
     'RedHat': {
-        'major_version': '9.3',
+        'major_version': major_version,
         'package': 'postgresql93-server',
-        'service': 'postgresql-9.3',
-        'bin_directory': '/usr/pgsql-9.3/bin',
-        'data_directory': '/var/db/postgresql/9.3/nostack',
-        'log_directory': '/var/log/postgresql/9.3/nostack',
-        'run_directory': '/var/run/postgresql/9.3/nostack',
+        'service': 'postgresql-%s' % major_version,
+        'bin_directory': '/usr/pgsql-%s/bin' % major_version,
+        'data_directory': '/var/db/postgresql/%s/nostack' % major_version,
+        'log_directory': '/var/log/postgresql/%s/nostack' % major_version,
+        'run_directory': '/var/run/postgresql/%s/nostack' % major_version,
         'default_encoding': 'UTF-8',
     },
 }, merge=salt['pillar.get']('postgres:environment')) %}

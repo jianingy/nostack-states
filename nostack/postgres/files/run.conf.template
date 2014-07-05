@@ -1,9 +1,10 @@
 {% from "nostack/postgres/map.jinja" import postgres with context %}
-[program:postgres-server]
+[program:postgresql-server]
+command={{ postgres.bin_directory }}/postgres -D {{ postgres.data_directory }} -c config_file="/etc/postgres/{{ postgres.major_version }}/nostack/postgresql.conf"
+pidfile=/var/run/postgresql/{{ postgres.major_version }}-nostack.pid
 user=postgres
 group=postgres
-command={{ postgres.bin_directory }}/postgres -D {{ postgres.data_directory }} -c config_file="/etc/postgres/{{ postgres.major_version }}/nostack/postgresql.conf"
 autostart=true
 autorestart=true
-redirect_stderr=false
+redirect_stderr=true
 stopsignal=QUIT
