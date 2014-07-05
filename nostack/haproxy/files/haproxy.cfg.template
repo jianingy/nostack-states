@@ -42,10 +42,14 @@ global
 defaults
     mode                    http
     log                     global
+    balance                 source
     option                  httplog
     option                  dontlognull
     option http-server-close
     option forwardfor       except 127.0.0.0/8
+    option                  tcpka
+    option                  srvtcpka
+
     retries                 3
     timeout http-request    10s
     timeout queue           1m
@@ -56,18 +60,11 @@ defaults
     timeout check           10s
     maxconn                 4000
 
-    stats enable
-    stats hide-version
-    stats scope .
-    stats realm Load\ Balancer\ Statistics
-    stats uri /haproxy?stats
-    stats auth admin:qunar2014
-
 #---------------------------------------------------------------------
 # main frontend which proxys to the backends
 #---------------------------------------------------------------------
 {% for listen in salt['pillar.get']('haproxy:listen', ['80']) %}
-frontend http-in
+frontend http_in_{{ listen }}
     bind *:{{ listen }}
 {% for name, vhost in salt['pillar.get']('haproxy:vhosts').iteritems() %}
     {% if vhost['listen'] == listen %}
@@ -89,6 +86,24 @@ backend cluster_{{ name }}
     option httpchk {{ vhost['health_check'] }}
     {% endif %}
     {% for server in vhost['backends'] -%}
-    server  {{ name }}_server_{{ loop.index }} {{ server }}
+    server  {{ name }}_server_{{ loop.index }} {{ server }} {{ 'check' if 'health_check' in vhost }}
+
     {% endfor %}
 {% endfor %}
+
+#---------------------------------------------------------------------
+# status monitor
+#---------------------------------------------------------------------
+listen haproxy_status *:11111
+  mode http
+  stats enable  
+  stats realm Load\ Balancer\ Statistics
+  stats uri  /haproxy?status
+  stats auth admin:qunar2014
+  stats refresh 5s
+  #stats admin if TRUE  
+  bind-process 1
+
+
+
+
