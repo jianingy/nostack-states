@@ -1,0 +1,14 @@
+                                _|                          _|        
+_|_|_|      _|_|      _|_|_|  _|_|_|_|    _|_|_|    _|_|_|  _|  _|    
+_|    _|  _|    _|  _|_|        _|      _|    _|  _|        _|_|      
+_|    _|  _|    _|      _|_|    _|      _|    _|  _|        _|  _|    
+_|    _|    _|_|    _|_|_|        _|_|    _|_|_|    _|_|_|  _|    _|  
+
+master: {{ salt['grains.get']('master') }}
+fqdn  : {{ salt['grains.get']('fqdn') }}
+ip    : {{ salt['grains.get']('fqdn_ip4') | join(',') }}
+{% if salt['grains.get']('fqdn_ip6') -%}
+ipv6  : {{ salt['grains.get']('fqdn_ip6') | join(',') }}
+{% endif -%}
+kernel: {{ salt['grains.get']('kernelrelease') }}
+
