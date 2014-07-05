@@ -2,7 +2,7 @@
 {% set postgres = salt['grains.filter_by']({
     'RedHat': {
         'major_version': major_version,
-        'package': 'postgresql93-server',
+        'packages': ['postgresql93-server', 'postgresql93-devel'],
         'service': 'postgresql-%s' % major_version,
         'bin_directory': '/usr/pgsql-%s/bin' % major_version,
         'data_directory': '/var/db/postgresql/%s/nostack' % major_version,

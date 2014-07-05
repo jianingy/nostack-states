@@ -1,11 +1,12 @@
 {% from "nostack/postgres/map.jinja" import postgres with context %}
 {% from "nostack/supervisor/map.jinja" import supervisor with context %}
 
-postgresql:
+{% for name in postgres.packages %}
+{{ name }}:
   pkg.installed:
     - refresh: False
     - fromrepo: pgdg93
-    - name: {{ postgres.package }}
+{% endfor %}
 
 postgres:
   user.present:
@@ -85,7 +86,6 @@ postgresql-server:
     - conf_file: {{ supervisor.config }}
     - require:
       - file: {{ supervisor.config_directory }}/postgresql-server.conf
-      - pkg: {{ postgres.package }}
     - watch:
       - file: pg_hba.conf
       - file: postgresql.conf
