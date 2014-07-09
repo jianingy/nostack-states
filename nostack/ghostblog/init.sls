@@ -72,8 +72,6 @@ prepare:
     - running
     - restart: True
     - update: True
-    - bin_env: {{ supervisor.root }}
-    - conf_file: {{ supervisor.config }}
     - require:
       - file: /etc/supervisor/conf.d/{{ blog_name }}.conf
       - file: {{ blog_root }}/config.js
