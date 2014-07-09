@@ -1,0 +1,6 @@
+{% set rsyncd = salt['grains.filter_by']({
+    'RedHat': {
+        'bin': '/usr/bin/rsync',
+        'config': '/etc/rsyncd.conf',
+    },
+}, merge=salt['pillar.get']('rsyncd:environment')) %}
