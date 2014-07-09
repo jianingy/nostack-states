@@ -8,6 +8,29 @@ python-virtualenv:
     - system_site_packages: False
     - requirements: salt://nostack/supervisor/files/requirements.txt
 
+/usr/bin/echo_supervisord_conf:
+  file.symlink:
+    - target: {{ supervisor.root }}/bin/echo_supervisord_conf
+  require:
+    - virtualenv: /opt/supervisor
+
+/usr/bin/pidproxy:
+  file.symlink:
+    - target: {{ supervisor.root }}/bin/pidproxy
+  require:
+    - virtualenv: /opt/supervisor
+
+/usr/bin/supervisorctl:
+  file.symlink:
+    - target: {{ supervisor.root }}/bin/supervisorctl
+  require:
+    - virtualenv: /opt/supervisor
+
+/usr/bin/supervisord:
+  file.symlink:
+    - target: {{ supervisor.root }}/bin/supervisord
+  require:
+    - virtualenv: /opt/supervisor
 
 /usr/bin/sv:
   file.symlink:

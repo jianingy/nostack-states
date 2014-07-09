@@ -9,4 +9,4 @@
         'config_directory': '/etc/supervisor/conf.d',
         'config': '/etc/supervisord.conf',
     },
-}, merge=salt['pillar.get']('supervisor:lookup')) %}
+}, merge=salt['pillar.get']('supervisor:environment')) %}
