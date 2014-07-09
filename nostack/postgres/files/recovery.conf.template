@@ -1,0 +1,9 @@
+{% from "nostack/postgres/map.jinja" import postgres with context %}
+
+# xlog recovery
+
+{% if salt['pillar.get']('postgres:omnipitr_mode', 'off') == 'on' -%}
+
+archive_command = '{{ postgres.omnipitr_bin }}/omnipitr-restore'
+
+{% endif -%}

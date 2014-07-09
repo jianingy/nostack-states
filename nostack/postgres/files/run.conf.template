@@ -1,6 +1,6 @@
 {% from "nostack/postgres/map.jinja" import postgres with context %}
 [program:postgresql-server]
-command={{ postgres.bin_directory }}/postgres -D {{ postgres.data_directory }} -c config_file="/etc/postgres/{{ postgres.major_version }}/nostack/postgresql.conf"
+command={{ postgres.postgres_bin }}/postgres -D {{ postgres.postgres_data }} -c config_file="{{ postgres.postgres_conf }}/postgresql.conf"
 pidfile=/var/run/postgresql/{{ postgres.major_version }}-nostack.pid
 user=postgres
 group=postgres

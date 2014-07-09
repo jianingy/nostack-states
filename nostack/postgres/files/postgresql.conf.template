@@ -1,9 +1,9 @@
 {% from "nostack/postgres/map.jinja" import postgres with context %}
 
 # environments
-data_directory = '{{ postgres.data_directory }}'
-hba_file = '{{ postgres.data_directory }}/pg_hba.conf'
-ident_file = '{{ postgres.data_directory }}/pg_ident.conf'
+data_directory = '{{ postgres.postgres_data }}'
+hba_file = '{{ postgres.postgres_data }}/pg_hba.conf'
+ident_file = '{{ postgres.postgres_data }}/pg_ident.conf'
 external_pid_file = '/var/run/postgresql/{{ postgres.major_version }}-nostack.pid'
 unix_socket_directories = '/var/run/postgresql'
 
@@ -29,3 +29,22 @@ lc_monetary = 'en_US.UTF-8'
 lc_numeric = 'en_US.UTF-8'
 lc_time = 'en_US.UTF-8'
 default_text_search_config = 'pg_catalog.english'
+
+# xlog archive
+{% if salt['pillar.get']('postgres:omnipitr_mode', 'off') == 'on' -%}
+archive_mode = 'on'
+archive_command = '{{ postgres.omnipitr_bin }}/omnipitr-archive -D {{ postgres.postgres_data }} -l {{ postgres.omnipitr_log }}/omnipitr-^Y^m^d.log -s {{ postgres.omnipitr_state }} -t {{ postgres.omnipitr_tmp }} -db {{ postgres.omnipitr_db }} {% for remote in salt['pillar.get']('postgres:omnipitr:remotes') %} -dr {{ remote }} {% endfor %} -v "%p"'
+archive_timeout = {{ salt['pillar.get']('postgres:archive_timeout', '0') }}
+{% else -%}
+archive_mode = 'off'
+archive_command = ''
+archive_timeout = 0
+{% endif -%}
+
+# wal hot_standby
+{% if salt['pillar.get']('postgres:wal_level', '') == 'hot_standby' %}
+hot_standby = on
+wal_level = 'hot_standby'
+wal_keep_segments = 150
+max_wal_senders = 5
+{% endif %}

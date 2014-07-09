@@ -1,23 +1,15 @@
-{% for user, attr in pillar['postgres']['users'].iteritems() %}
+{% from "nostack/postgres/map.jinja" import postgres with context %}
+{%- for item in salt['pillar.get']('postgres:users') %}
+{%- set user, rights = item.items()[0] %}
 create_user_{{ user }}:
   cmd.run:
-    - name: >
-            /usr/bin/createuser
-            {%- if attr.get('superuser', False): %}
-            -s
-            {%- else: %}
-            -S
-            {%- endif %}
-            {%- if attr.get('createdb', False): %}
-            -d
-            {%- else: %}
-            -D
-            {%- endif %}
-            {%- if attr.get('createrole', False): %}
-            -r
-            {%- else: %}
-            -R
-            {%- endif %}
-            {{ user }}; exit 0
     - user: postgres
-{% endfor %}
+    - name: >
+            {{ postgres.postgres_bin }}/createuser -h localhost
+            {%- for right in rights %}
+               {{- ' -s ' if right.get('superuser', False) else ' ' }}
+               {{- ' -d ' if right.get('createdb', False) else ' ' }}
+               {{- ' -r ' if right.get('createrole', False) else ' ' }}
+           {%- endfor %}
+           {{- user }}; exit 0
+{%- endfor %}

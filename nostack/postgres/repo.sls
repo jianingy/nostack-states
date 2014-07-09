@@ -6,7 +6,7 @@
 repo-release:
   pkg.installed:
     - sources:
-      - pgdg: "http://yum.postgresql.org/{{ postgres.major_version }}/redhat/rhel-6-{{osarch}}/pgdg-centos93-9.3-1.noarch.rpm"
+      - pgdg-centos93: "http://yum.postgresql.org/{{ postgres.major_version }}/redhat/rhel-6-{{osarch}}/pgdg-centos93-9.3-1.noarch.rpm"
     - pkg_verify: False
 
 {% endif %}
