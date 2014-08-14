@@ -1,0 +1,3 @@
+#!/bin/sh
+chown nobody. ./main
+exec chpst -unobody svlogd -tt ./main

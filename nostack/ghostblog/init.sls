@@ -57,23 +57,32 @@ prepare:
     - source: salt://nostack/ghostblog/files/themes
     - user: nobody
 
-/etc/supervisor/conf.d/{{ blog_name }}.conf:
+/etc/sv/{{ blog_name }}/run:
   file.managed:
-    - source: salt://nostack/ghostblog/files/run.conf.template
+    - source: salt://nostack/ghostblog/files/runit.template
     - template: jinja
+    - mode: 0755
+    - makedirs: True
     - defaults:
       blog_name: {{ blog_name }}
       blog_root: {{ blog_root }}
       port: {{ settings['port'] }}
 
+/etc/sv/{{ blog_name }}/log/run:
+  file.managed:
+    - source: salt://nostack/files/runit-log.template
+    - template: jinja
+    - mode: 0755
+    - makedirs: True
 
-{{ blog_name }}:
-  supervisord:
-    - running
-    - restart: True
-    - update: True
+/etc/sv/{{ blog_name }}/log/main:
+  file.directory
+
+/service/{{ blog_name }}:
+  file.symlink:
+    - target: /etc/sv/{{ blog_name }}
     - require:
-      - file: /etc/supervisor/conf.d/{{ blog_name }}.conf
-      - file: {{ blog_root }}/config.js
+      - file: /etc/sv/{{ blog_name }}/run
+
 
 {% endfor %}

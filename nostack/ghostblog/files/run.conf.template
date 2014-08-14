@@ -1,8 +1,0 @@
-[program:{{ blog_name }}]
-command=npm start --production
-directory={{ blog_root }}
-user=nobody
-autostart=True
-autorestart=True
-redirect_stderr=True
-killasgroup=True
