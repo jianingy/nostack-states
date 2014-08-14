@@ -1,0 +1,2 @@
+xmonad:
+  pkg.purged
