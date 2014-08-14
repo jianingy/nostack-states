@@ -32,12 +32,6 @@ python-virtualenv:
   require:
     - virtualenv: /opt/supervisor
 
-/usr/bin/sv:
-  file.symlink:
-    - target: {{ supervisor.root }}/bin/supervisorctl
-  require:
-    - virtualenv: /opt/supervisor
-
 /etc/supervisor:
   file.directory:
     - user: root
