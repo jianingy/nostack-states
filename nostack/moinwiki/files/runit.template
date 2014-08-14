@@ -1,0 +1,6 @@
+#!/bin/sh
+exec 2>&1
+cd {{ wiki_root }}
+export PATH="{{ wiki_root }}/bin:$PATH"
+export VIRTUAL_ENV="{{ wiki_root }}"
+exec chpst -u nobody {{ wiki_root }}/bin/moin --config-dir wiki server standalone --port {{ port }}

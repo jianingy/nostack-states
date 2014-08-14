@@ -48,19 +48,31 @@ virtualenv:
     - source: salt://nostack/moinwiki/files/wikiconfig.py
     - makedirs: True
 
-/etc/supervisor/conf.d/{{ wiki_name }}.conf:
+/etc/sv/{{ wiki_name }}/run:
   file.managed:
-    - source: salt://nostack/moinwiki/files/run.conf.template
+    - source: salt://nostack/moinwiki/files/runit.template
     - template: jinja
+    - mode: 0755
+    - makedirs: True
     - defaults:
       wiki_name: {{ wiki_name }}
       wiki_root: {{ wiki_root }}
       port: {{ settings['port'] }}
 
-{{ wiki_name }}:
-  supervisord:
-    - running
-    - watch:
-      - file: /etc/supervisor/conf.d/{{ wiki_name }}.conf
+/etc/sv/{{ wiki_name }}/log/run:
+  file.managed:
+    - source: salt://nostack/files/runit-log.template
+    - template: jinja
+    - mode: 0755
+    - makedirs: True
+
+/etc/sv/{{ wiki_name }}/log/main:
+  file.directory
+
+/service/{{ wiki_name }}:
+  file.symlink:
+    - target: /etc/sv/{{ wiki_name }}
+    - require:
+      - file: /etc/sv/{{ wiki_name }}/run
 
 {% endfor %}
