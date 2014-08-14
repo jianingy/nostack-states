@@ -1,4 +1,4 @@
-{%- for name, values in salt['pillar.get']('rsyncd:modules').iteritems() %}
+{%- for name, values in salt['pillar.get']('rsyncd:modules', {}).iteritems() %}
 [{{ name }}]
 {%- for key, value in values.iteritems() %}
 {{ key | replace('_', ' ') }} = {{ value }}

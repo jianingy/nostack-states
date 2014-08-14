@@ -1,8 +1,0 @@
-{% from "nostack/rsyncd/map.jinja" import rsyncd with context %}
-[program:rsyncd]
-command={{ rsyncd.bin }} --config {{ rsyncd.config }} --daemon --no-detach
-user=root
-group=root
-autostart=true
-autorestart=true
-redirect_stderr=true

@@ -1,5 +1,3 @@
-{% from "nostack/supervisor/map.jinja" import supervisor with context %}
-
 nodejs:
 {% if grains['os'] in ('Ubuntu',) %}
   pkgrepo.managed:

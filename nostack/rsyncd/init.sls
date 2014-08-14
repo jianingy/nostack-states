@@ -1,4 +1,3 @@
-{% from "nostack/supervisor/map.jinja" import supervisor with context %}
 {% from "nostack/rsyncd/map.jinja" import rsyncd with context %}
 
 rsync:
@@ -12,14 +11,27 @@ rsync:
     - group: root
     - mode: 600
 
-{{ supervisor.config_directory }}/rsyncd.conf:
+/etc/sv/rsyncd/run:
   file.managed:
-    - source: salt://nostack/rsyncd/files/run.conf.template
+    - source: salt://nostack/rsyncd/files/runit.template
     - template: jinja
+    - mode: 0755
+    - makedirs: True
 
-rsyncd:
-  supervisord:
-    - running
-    - update: True
+/etc/sv/rsyncd/log/run:
+  file.managed:
+    - source: salt://nostack/files/runit-log.template
+    - template: jinja
+    - mode: 0755
+    - makedirs: True
+
+/etc/sv/postgresql/log/main:
+  file.directory
+
+/service/rsyncd:
+  file.symlink:
+    - target: /etc/sv/rsyncd
+    - require:
+      - file: {{ rsyncd.config }}
     - watch:
       - file: {{ rsyncd.config }}

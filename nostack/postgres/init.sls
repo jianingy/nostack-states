@@ -1,5 +1,4 @@
 {% from "nostack/postgres/map.jinja" import postgres with context %}
-{% from "nostack/supervisor/map.jinja" import supervisor with context %}
 
 {% for name in postgres.packages %}
 {{ name }}:
@@ -104,21 +103,31 @@ initdb:
     - user: postgres
     - unless: test -e {{ postgres.postgres_data }}/PG_VERSION
 
-{{ supervisor.config_directory }}/postgresql-server.conf:
-  file.managed:
-    - source: salt://nostack/postgres/files/run.conf.template
-    - template: jinja
-
 /etc/init.d/postgresql-9.3:
   file.managed:
     - mode: 400
 
-postgresql-server:
-  supervisord:
-    - running
-    - update: True
+/etc/sv/postgresql/run:
+  file.managed:
+    - source: salt://nostack/postgres/files/runit.template
+    - template: jinja
+    - mode: 0755
+    - makedirs: True
+
+/etc/sv/postgresql/log/run:
+  file.managed:
+    - source: salt://nostack/files/runit-log.template
+    - template: jinja
+    - mode: 0755
+    - makedirs: True
+
+/etc/sv/postgresql/log/main:
+  file.directory
+
+/service/postgresql:
+  file.symlink:
+    - target: /etc/sv/postgresql
     - require:
-      - file: {{ supervisor.config_directory }}/postgresql-server.conf
-    - watch:
+      - file: /etc/sv/postgresql/run
       - file: pg_hba.conf
       - file: postgresql.conf

@@ -1,0 +1,4 @@
+{% from "nostack/postgres/map.jinja" import postgres with context -%}
+#!/bin/sh
+exec 2>&1
+exec chpst -u postgres:postgres {{ postgres.postgres_bin }}/postgres -D {{ postgres.postgres_data }} -c config_file="{{ postgres.postgres_conf }}/postgresql.conf"
