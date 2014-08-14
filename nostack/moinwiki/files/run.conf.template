@@ -1,0 +1,9 @@
+[program:{{ wiki_name }}]
+command={{ wiki_root }}/bin/moin --config-dir wiki server standalone --port {{ port }}
+directory={{ wiki_root }}
+user=nobody
+autostart=True
+autorestart=True
+redirect_stderr=True
+environment=PATH="{{ wiki_root }}/bin:$PATH",VIRTUAL_ENV="{{ wiki_root }}"
+killasgroup=True
