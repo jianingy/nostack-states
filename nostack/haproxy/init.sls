@@ -9,10 +9,12 @@ haproxy:
     - group: root
     - mode: 644
     - template: jinja
-  service:
-    - running
-    - enable: True
-    - require:
-      - pkg: haproxy
-    - watch:
-      - file: haproxy
+
+/etc/sv/haproxy:
+  file.recurse:
+    - source: salt://nostack/haproxy/files/runit
+    - file_mode: 0755
+
+/service/haproxy:
+  file.symlink:
+    - target: /etc/sv/haproxy
