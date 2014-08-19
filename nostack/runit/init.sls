@@ -1,12 +1,15 @@
-{% if grains['os_family'] in ('Debian',) %}
 runit:
   pkg.installed:
     - refresh: False
 
+{% if grains['os_family'] in ('Debian',) %}
 /usr/sbin/runsvdir-start:
   file.replace:
     - pattern: '^runsvdir -P /etc/service'
     - repl: 'runsvdir -P /service'
+    - require:
+      - pkg: runit
+{% endif %}
 
 /etc/service:
   file.absent
@@ -24,4 +27,3 @@ runsvdir:
     - watch:
       - file: /usr/sbin/runsvdir-start
 
-{% endif %}
