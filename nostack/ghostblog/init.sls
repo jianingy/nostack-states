@@ -16,8 +16,9 @@ ghostblog:
   archive:
     - extracted
     - name: {{ blog_root }}
-    - source: salt://nostack/ghostblog/files/ghost-0.4.2.zip
-#    - source_hash: sha1=21c123bcdc4bc366261d8026d485b887bb448b60
+#    - source: salt://nostack/ghostblog/files/ghost-0.5.0.zip
+    - source: http://github.com/TryGhost/Ghost/releases/download/0.5.0/Ghost-0.5.0.zip
+    - source_hash: sha1=788a017e9ce38d5110b94f0c6b6cf19ac6f101db
     - archive_format: zip
     - if_missing: {{ blog_root }}
 
