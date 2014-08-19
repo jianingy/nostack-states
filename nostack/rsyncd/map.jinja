@@ -2,5 +2,11 @@
     'RedHat': {
         'bin': '/usr/bin/rsync',
         'config': '/etc/rsyncd.conf',
+        'secrets': '/etc/rsyncd.secrets',
+    },
+    'Debian': {
+        'bin': '/usr/bin/rsync',
+        'config': '/etc/rsyncd.conf',
+        'secrets': '/etc/rsyncd.secrets',
     },
 }, merge=salt['pillar.get']('rsyncd:environment')) %}
