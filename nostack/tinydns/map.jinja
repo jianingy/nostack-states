@@ -1,0 +1,8 @@
+{% set tinydns = salt['grains.filter_by']({
+    'RedHat': {
+        'root': '/etc/sv/tinydns',
+    },
+    'Debian': {
+        'root': '/etc/sv/tinydns',
+    },
+}, merge=salt['pillar.get']('tinydns:environment')) %}
