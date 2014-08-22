@@ -1,14 +1,14 @@
-                                _|                          _|        
-_|_|_|      _|_|      _|_|_|  _|_|_|_|    _|_|_|    _|_|_|  _|  _|    
-_|    _|  _|    _|  _|_|        _|      _|    _|  _|        _|_|      
-_|    _|  _|    _|      _|_|    _|      _|    _|  _|        _|  _|    
-_|    _|    _|_|    _|_|_|        _|_|    _|_|_|    _|_|_|  _|    _|  
-
-master: {{ salt['grains.get']('master') }}
-fqdn  : {{ salt['grains.get']('fqdn') }}
-ip    : {{ salt['grains.get']('fqdn_ip4') | join(',') }}
-{% if salt['grains.get']('fqdn_ip6') -%}
-ipv6  : {{ salt['grains.get']('fqdn_ip6') | join(',') }}
-{% endif -%}
-kernel: {{ salt['grains.get']('kernelrelease') }}
-
+ [34;1m        _
+        / \      _-'
+      _/|  \-''- _ /       [33;1mM a n a g e d    B y    J i a n i n g    Y a n g[34;1m
+ __-' { |          \
+     /              \        [37;0mmaster:[37;0m [32;1m{{ salt['grains.get']('master', 'n/a') }}[34;1m
+     /       "o.  |o }     [37;0mhostname:[37;0m [32;1m{{ salt['grains.get']('fqdn', 'n/a') }}[34;1m
+     |            \ ;           [37;0mip4:[37;0m [32;1m{{ salt['grains.get']('fqdn_ip4', ['n/a']) | join(',') }}[34;1m
+                   ',           [37;0mip6:[37;0m [32;1m{{ salt['grains.get']('fqdn_ip6', ['n/a']) | join(',') }}[34;1m 
+        \_         __\       [37;0mkernel:[37;0m [32;1m{{ salt['grains.get']('kernel', '') }} {{ salt['grains.get']('kernelrelease', 'n/a') }}[34;1m
+          ''-_    \.//       [37;0msystem:[37;0m [32;1m{{ salt['grains.get']('os', '') }} {{ salt['grains.get']('osrelease', 'n/a') }}[34;1m
+            / '-____'   [37;0msaltversion:[37;0m [32;1m{{ salt['grains.get']('saltversion', 'n/a') }}[34;1m
+           /
+         _'
+       _-'[37;0m
