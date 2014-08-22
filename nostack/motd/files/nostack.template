@@ -1,6 +1,6 @@
  [34;1m        _
         / \      _-'
-      _/|  \-''- _ /       [33;1mM a n a g e d    B y    J i a n i n g    Y a n g[34;1m
+      _/|  \-''- _ /       [33;1ms e r v e r    o f    n o s t a c k . i n[34;1m
  __-' { |          \
      /              \        [37;0mmaster:[37;0m [32;1m{{ salt['grains.get']('master', 'n/a') }}[34;1m
      /       "o.  |o }     [37;0mhostname:[37;0m [32;1m{{ salt['grains.get']('fqdn', 'n/a') }}[34;1m
