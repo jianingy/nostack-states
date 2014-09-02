@@ -1,0 +1,3 @@
+#!/bin/sh
+chown qmaill.qmail ./main
+exec chpst -uqmaill svlogd -tt ./main
