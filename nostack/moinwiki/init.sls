@@ -42,6 +42,12 @@ virtualenv:
     - name: rsync -a --include 'data/***' --include 'underlay/***' --exclude '*' .  {{ wiki_root }}/wiki
     - cwd: {{ wiki_root }}/share/moin/
 
+{{ wiki_root }}/wiki/wsgi.py:
+  file.managed:
+    - user: nobody
+    - source: salt://nostack/moinwiki/files/wsgi.py
+    - makedirs: True
+
 {{ wiki_root }}/wiki/wikiconfig.py:
   file.managed:
     - user: nobody

@@ -1,3 +1,5 @@
 python-dateutil
 html5lib
 moin
+gunicorn
+werkzeug
