@@ -3,7 +3,7 @@
 {% set wiki_root = settings['wiki_root'] %}
 {% set wiki_url = settings['wiki_url'] %}
 {% for name, values in settings.get('users', []).iteritems() %}
-create_user:
+moin_create_user_{{ name }}:
   cmd.run:
     - name: >
         {{ wiki_root }}/bin/moin \
