@@ -1,0 +1,5 @@
+{% set graphite = salt['grains.filter_by']({
+    'RedHat': {
+        'web': 'coreops-python2-graphite-web',
+    },
+}, merge=salt['pillar.get']('graphite:environment')) %}
