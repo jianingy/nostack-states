@@ -1,0 +1,4 @@
+PGPORT={{ salt['pillar.get']('postgres:port', '5432') }}
+PGDATA={{ salt['pillar.get']('postgres:data', '/export/pgsql/data') }}
+PGLOG={{ salt['pillar.get']('postgres:log', '/export/pgsql/log') }}/pgstartup.log
+PGUPLOG={{ salt['pillar.get']('postgres:log', '/export/pgsql/log') }}/pgupgrade.log

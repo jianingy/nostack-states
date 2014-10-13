@@ -1,0 +1,6 @@
+{% set major_version = '9.3' %}
+{% set postgres = salt['grains.filter_by']({
+    'RedHat': {
+        'default_encoding': 'UTF-8',
+    },
+}, merge=salt['pillar.get']('postgres:environment')) %}
