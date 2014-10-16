@@ -34,7 +34,7 @@
 
 /etc/sv/carbon-cache-{{ instance['name'] }}/log/run:
   file.managed:
-    - source: salt://nostack/graphite/files/sv/logrun
+    - source: salt://nostack/graphite/files/sv/logrun.template
     - template: jinja
     - mode: 0755
 

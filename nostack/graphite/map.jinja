@@ -12,6 +12,7 @@
 {% set carbon = salt['grains.filter_by']({
     'RedHat': {
         'python': '/home/coreops/bin/python',
+        'root_dir': '/opt/graphite',
         'conf_dir': '/opt/graphite/conf',
         'storage_dir': '/data/graphite',
         'local_data_dir': '/data/graphite/whisper',
