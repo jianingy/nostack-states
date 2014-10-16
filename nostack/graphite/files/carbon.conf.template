@@ -275,9 +275,13 @@ REPLICATION_FACTOR = {{ carbon_relay.replication_factor }}
 #
 # If using RELAY_METHOD = rules, all destinations used in relay-rules.conf
 # must be defined in this list
+{% if salt['pillar.get']('carbon_relay:destinations', '') == '' %}
 DESTINATIONS = {% for instance in salt['pillar.get']('carbon_cache:instances', []) -%}
 127.0.0.1:{{ instance['pickle_receiver_port'] }}:{{ instance['name'] }}{%- if not loop.last %}, {% endif %}
 {%- endfor %}
+{% else %}
+DESTINATIONS = {{ salt['pillar.get']('carbon_relay:destinations', '') }}
+{% endif %}
 
 # This defines the maximum "message size" between carbon daemons.
 # You shouldn't need to tune this unless you really know what you're doing.
