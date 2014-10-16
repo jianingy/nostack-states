@@ -1,3 +1,15 @@
+{% from "nostack/graphite/map.jinja" import carbon with context -%}
+
+{{ carbon_relay.log_dir }}:
+  file.directory:
+    - makedirs: True
+    - mode: 0755
+
+{{ carbon_relay.pid_dir }}:
+  file.directory:
+    - makedirs: True
+    - mode: 0755
+
 /etc/sv/carbon-relay/log/main:
   file.directory:
     - makedirs: True
