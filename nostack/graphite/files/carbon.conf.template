@@ -1,5 +1,5 @@
 {% from "nostack/graphite/map.jinja" import carbon with context -%}
-{% from "nostack/graphite/map.jinja" import carbonrelay with context -%}
+{% from "nostack/graphite/map.jinja" import carbon_relay with context -%}
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # !!
 # !!  AUTO-GENERATED FILE !! LOCAL MODIFICATION WONT LAST !!
@@ -228,8 +228,8 @@ CACHE_QUERY_PORT = {{ instance['cache_query_port'] }}
 
 
 [relay]
-LOG_DIR        = {{ carbonrelay.log_dir }}
-PID_DIR        = {{ carbonrelay.pid_dir }}
+LOG_DIR        = {{ carbon_relay.log_dir }}
+PID_DIR        = {{ carbon_relay.pid_dir }}
 
 LINE_RECEIVER_INTERFACE = 0.0.0.0
 LINE_RECEIVER_PORT = 2013
@@ -253,11 +253,11 @@ LOG_LISTENER_CONNECTIONS = True
 # instance.
 # Enable this for carbon-relays that send to a group of carbon-aggregators
 #RELAY_METHOD = aggregated-consistent-hashing
-RELAY_METHOD = {{ carbonrelay.relay_method }}
+RELAY_METHOD = {{ carbon_relay.relay_method }}
 
 # If you use consistent-hashing you can add redundancy by replicating every
 # datapoint to more than one machine.
-REPLICATION_FACTOR = {{ carbonrelay.replication_factor }}
+REPLICATION_FACTOR = {{ carbon_relay.replication_factor }}
 
 # This is a list of carbon daemons we will send any relayed or
 # generated metrics to. The default provided would send to a single

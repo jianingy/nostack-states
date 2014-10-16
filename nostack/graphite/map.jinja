@@ -22,7 +22,7 @@
     },
 }, merge=salt['pillar.get']('carbon:environment')) %}
 
-{% set carbonrelay = salt['grains.filter_by']({
+{% set carbon_relay = salt['grains.filter_by']({
     'RedHat': {
         'python': '/home/coreops/bin/python',
         'log_dir': '/data/graphite/log/carbon-cache',
@@ -30,4 +30,4 @@
         'relay_method': 'consistent-hashing',
         'replication_factor': '1',
     },
-}, merge=salt['pillar.get']('carbonrelay:environment')) %}
+}, merge=salt['pillar.get']('carbon_relay:environment')) %}
