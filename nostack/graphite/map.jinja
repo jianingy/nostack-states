@@ -21,3 +21,13 @@
         'pid_dir': '/data/graphite/run',
     },
 }, merge=salt['pillar.get']('carbon:environment')) %}
+
+{% set carbonrelay = salt['grains.filter_by']({
+    'RedHat': {
+        'python': '/home/coreops/bin/python',
+        'log_dir': '/data/graphite/log/carbon-cache',
+        'pid_dir': '/data/graphite/run',
+        'relay_method': 'consistent-hashing',
+        'replication_factor': '1',
+    },
+}, merge=salt['pillar.get']('carbonrelay:environment')) %}
