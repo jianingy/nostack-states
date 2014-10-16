@@ -1,8 +1,11 @@
-{% from "nostack/graphite/map.jinja" import graphite with context %}
+{% from "nostack/graphite/map.jinja" import graphiteweb with context %}
 
-{{ graphite.web }}:
+{{ graphiteweb.pkg}}:
   pkg.installed
 
+{{ graphiteweb.log_dir }}:
+  file.directory:
+    - makedirs: True
 
 /opt/graphite/webapp/graphite/graphite_wsgi.py:
   file.managed:
@@ -15,7 +18,7 @@
 
 syncdb:
   cmd.run:
-    - name: /home/coreops/bin/python /opt/graphite/webapp/graphite/manage.py syncdb
+    - name: /home/coreops/bin/python /opt/graphite/webapp/graphite/manage.py syncdb --noinput
 
 
 /etc/sv/graphite-web/log/main:
@@ -29,5 +32,5 @@ syncdb:
 
 /etc/sv/graphite-web/log/run:
   file.managed:
-    - source: salt://nostack/graphite/files/sv/graphite-web/logrun
+    - source: salt://nostack/graphite/files/sv/logrun
     - mode: 0755

@@ -1,3 +1,5 @@
+{% from "nostack/graphite/map.jinja" import carbon with context -%}
+{% from "nostack/graphite/map.jinja" import graphiteweb with context -%}
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # !!
 # !!  AUTO-GENERATED FILE !! LOCAL MODIFICATION WONT LAST !!
@@ -28,6 +30,7 @@ SECRET_KEY = "{{ salt['pillar.get']('graphiteweb:secret', 'UNKNOWN_SECRET') }}"
 # If your graphs appear to be offset by a couple hours then this probably
 # needs to be explicitly set to your local timezone.
 #TIME_ZONE = 'America/Los_Angeles'
+TIME_ZONE = "{{ salt['pillar.get']('graphiteweb:timezone', 'Asia/Shanghai') }}"
 
 # Override this to provide documentation specific to your Graphite deployment
 #DOCUMENTATION_URL = "http://graphite.readthedocs.org/"
@@ -62,6 +65,7 @@ SECRET_KEY = "{{ salt['pillar.get']('graphiteweb:secret', 'UNKNOWN_SECRET') }}"
 # Change only GRAPHITE_ROOT if your install is merely shifted from /opt/graphite
 # to somewhere else
 #GRAPHITE_ROOT = '/opt/graphite'
+GRAPHITE_ROOT = "{{ salt['pillar.get']('graphiteweb:graphite_root', '/opt/graphite') }}"
 
 # Most installs done outside of a separate tree such as /opt/graphite will only
 # need to change these three settings. Note that the default settings for each
@@ -69,6 +73,8 @@ SECRET_KEY = "{{ salt['pillar.get']('graphiteweb:secret', 'UNKNOWN_SECRET') }}"
 #CONF_DIR = '/opt/graphite/conf'
 #STORAGE_DIR = '/opt/graphite/storage'
 #CONTENT_DIR = '/opt/graphite/webapp/content'
+CONF_DIR = "{{ salt['pillar.get']('graphiteweb:conf_dir', '/opt/graphite/conf') }}"
+STORAGE_DIR = "{{ salt['pillar.get']('graphiteweb:storage_dir', '/opt/graphite/storage') }}"
 
 # To further or fully customize the paths, modify the following. Note that the
 # default settings for each of these are relative to CONF_DIR and STORAGE_DIR
@@ -76,6 +82,7 @@ SECRET_KEY = "{{ salt['pillar.get']('graphiteweb:secret', 'UNKNOWN_SECRET') }}"
 ## Webapp config files
 #DASHBOARD_CONF = '/opt/graphite/conf/dashboard.conf'
 #GRAPHTEMPLATES_CONF = '/opt/graphite/conf/graphTemplates.conf'
+DASHBOARD_CONF = "{{ salt['pillar.get']('graphiteweb:dashboard_conf', '/opt/graphite/conf/dashboard.conf') }}"
 
 ## Data directories
 # NOTE: If any directory is unreadable in DATA_DIRS it will break metric browsing
@@ -84,6 +91,11 @@ SECRET_KEY = "{{ salt['pillar.get']('graphiteweb:secret', 'UNKNOWN_SECRET') }}"
 #DATA_DIRS = [WHISPER_DIR, RRD_DIR] # Default: set from the above variables
 #LOG_DIR = '/opt/graphite/storage/log/webapp'
 #INDEX_FILE = '/opt/graphite/storage/index'  # Search index file
+WHISPER_DIR = "{{ carbon.local_data_dir }}"
+RRD_DIR = "{{ graphiteweb.rrd_dir }}"
+DATA_DIRS = [WHISPER_DIR, RRD_DIR]
+LOG_DIR = "{{ graphiteweb.log_dir }}"
+INDEX_FILE = "{{ graphiteweb.index_file }}"
 
 
 #####################################
@@ -188,6 +200,7 @@ DATABASES = {
 # metric data. Note that the first server to return a match for a query will be
 # used.
 #CLUSTER_SERVERS = ["10.0.2.2:80", "10.0.2.3:80"]
+CLUSTER_SERVERS = {{ salt['pillar.get']('graphiteweb:cluster_servers', []) }}
 
 ## These are timeout values (in seconds) for requests to remote webapps
 #REMOTE_STORE_FETCH_TIMEOUT = 6   # Timeout to fetch series data
@@ -203,6 +216,7 @@ DATABASES = {
 # access to metric data or should have CLUSTER_SERVERS configured
 #RENDERING_HOSTS = []
 #REMOTE_RENDER_CONNECT_TIMEOUT = 1.0
+RENDERING_HOSTS = {{ salt['pillar.get']('graphiteweb:render_hosts', []) }}
 
 # If you are running multiple carbon-caches on this machine (typically behind a relay using
 # consistent hashing), you'll need to list the ip address, cache query port, and instance name of each carbon-cache

@@ -1,0 +1,5 @@
+{% from "nostack/graphite/map.jinja" import carbon with context -%}
+#!/bin/sh
+
+exec 2>&1
+exec {{ carbon.python }} /opt/graphite/bin/carbon-cache.py start --debug --instance {{ instance_name }}

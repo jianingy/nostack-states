@@ -1,5 +1,21 @@
-{% set graphite = salt['grains.filter_by']({
+{% set graphiteweb = salt['grains.filter_by']({
     'RedHat': {
-        'web': 'coreops-python2-graphite-web',
+        'pkg': 'coreops-python2-graphite-web',
+        'python_root': '/home/coreops',
+        'rrd_dir': '/data/graphite/rrd',
+        'log_dir': '/data/graphite/log/graphite-web',
+        'index_file': '/data/graphite/graphite-web-index',
     },
-}, merge=salt['pillar.get']('graphite:environment')) %}
+}, merge=salt['pillar.get']('graphiteweb:environment')) %}
+
+{% set carbon = salt['grains.filter_by']({
+    'RedHat': {
+        'python': '/home/coreops/bin/python',
+        'conf_dir': '/opt/graphite/conf',
+        'storage_dir': '/data/graphite',
+        'local_data_dir': '/data/graphite/whisper',
+        'whitelists_dir': '/data/graphite/whitelists',
+        'log_dir': '/data/graphite/log/carbon-cache',
+        'pid_dir': '/data/graphite/run',
+    },
+}, merge=salt['pillar.get']('carbon:environment')) %}
