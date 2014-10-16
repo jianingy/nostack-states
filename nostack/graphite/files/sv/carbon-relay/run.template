@@ -1,5 +1,5 @@
-{% from "nostack/graphite/map.jinja" import carbon with context -%}
+{% from "nostack/graphite/map.jinja" import carbonrelay with context -%}
 #!/bin/sh
 
 exec 2>&1
-exec {{ carbon.python }} /opt/graphite/bin/carbon-relay.py start --debug
+exec {{ carbonrelay.python }} /opt/graphite/bin/carbon-relay.py start --debug
