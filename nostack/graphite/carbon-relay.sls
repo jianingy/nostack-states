@@ -1,4 +1,4 @@
-{% from "nostack/graphite/map.jinja" import carbon with context -%}
+{% from "nostack/graphite/map.jinja" import carbon_relay with context -%}
 
 {{ carbon_relay.log_dir }}:
   file.directory:
