@@ -1,7 +1,8 @@
 {% set graphiteweb = salt['grains.filter_by']({
     'RedHat': {
         'pkg': 'coreops-python2-graphite-web',
-        'python_root': '/home/coreops',
+        'python': '/home/coreops/bin/python',
+        'gunicorn': '/home/coreops/bin/gunicorn',
         'rrd_dir': '/data/graphite/rrd',
         'log_dir': '/data/graphite/log/graphite-web',
         'index_file': '/data/graphite/graphite-web-index',

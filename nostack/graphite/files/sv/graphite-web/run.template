@@ -1,0 +1,6 @@
+{% from "nostack/graphite/map.jinja" import graphiteweb with context -%}
+#!/bin/sh
+
+exec 2>&1
+cd /opt/graphite/webapp/graphite
+exec {{ graphiteweb.gunicorn }} --bind 0.0.0.0:80 --access-logfile - --error-logfile - graphite_wsgi

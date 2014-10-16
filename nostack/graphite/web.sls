@@ -18,7 +18,7 @@
 
 syncdb:
   cmd.run:
-    - name: /home/coreops/bin/python /opt/graphite/webapp/graphite/manage.py syncdb --noinput
+    - name: {{ graphiteweb.python }} /opt/graphite/webapp/graphite/manage.py syncdb --noinput
 
 
 /etc/sv/graphite-web/log/main:
@@ -27,10 +27,12 @@ syncdb:
 
 /etc/sv/graphite-web/run:
   file.managed:
-    - source: salt://nostack/graphite/files/sv/graphite-web/run
+    - source: salt://nostack/graphite/files/sv/graphite-web/run.template
+    - template: jinja
     - mode: 0755
 
 /etc/sv/graphite-web/log/run:
   file.managed:
-    - source: salt://nostack/graphite/files/sv/logrun
+    - source: salt://nostack/graphite/files/sv/logrun.template
     - mode: 0755
+    - template: jinja

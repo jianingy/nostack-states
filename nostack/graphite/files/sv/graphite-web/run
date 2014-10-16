@@ -1,5 +1,0 @@
-#!/bin/sh
-
-exec 2>&1
-cd /opt/graphite/webapp/graphite
-exec /home/coreops/bin/gunicorn --bind 0.0.0.0:80 --access-logfile - --error-logfile - graphite_wsgi
