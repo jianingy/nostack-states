@@ -90,7 +90,7 @@ backend cluster_{{ name }}
     option httpchk {{ vhost['health_check'] }}
     {% endif %}
     {% for server in vhost['backends'] -%}
-    server  {{ name }}_server_{{ loop.index }} {{ server }} {{ 'check' if 'health_check' in vhost }}
+    server  {{ name }}_server_{{ loop.index }} {{ server }}{% if 'health_check' in vhost %} check {% endif %}
 
     {% endfor %}
 {% endfor %}
