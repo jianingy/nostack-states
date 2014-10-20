@@ -2,5 +2,6 @@
 #!/bin/sh
 
 exec 2>&1
+export LD_LIBRARY_PATH={{ graphiteweb.python_lib }}:$LD_LIBRARY_PATH
 cd /opt/graphite/webapp/graphite
 exec {{ graphiteweb.gunicorn }} --bind 0.0.0.0:80 --access-logfile - --error-logfile - graphite_wsgi

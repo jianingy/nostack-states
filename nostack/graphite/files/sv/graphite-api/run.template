@@ -1,0 +1,6 @@
+{% from "nostack/graphite/map.jinja" import graphite_api with context -%}
+#!/bin/sh
+
+exec 2>&1
+export LD_LIBRARY_PATH={{ graphite_api.python_lib }}:$LD_LIBRARY_PATH
+exec {{ graphite_api.gunicorn }} -w {{ salt['pillar.get']('graphite_api:num_workers', 4) }} -b {{ salt['pillar.get']('graphite_api:listen', '0.0.0.0:80') }} --access-logfile - --error-logfile - graphite_api.app:app

@@ -2,4 +2,5 @@
 #!/bin/sh
 
 exec 2>&1
+export LD_LIBRARY_PATH={{ carbon_relay.python_lib }}:$LD_LIBRARY_PATH
 exec {{ carbon_relay.python }} /opt/graphite/bin/carbon-relay.py start --debug

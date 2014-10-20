@@ -2,4 +2,5 @@
 #!/bin/sh
 
 exec 2>&1
+export LD_LIBRARY_PATH={{ carbon.python_lib }}:$LD_LIBRARY_PATH
 exec {{ carbon.python }} /opt/graphite/bin/carbon-cache.py start --debug --instance {{ instance_name }}

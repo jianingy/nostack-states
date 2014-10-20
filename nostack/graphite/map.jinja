@@ -1,8 +1,9 @@
 {% set graphiteweb = salt['grains.filter_by']({
     'RedHat': {
-        'pkg': 'coreops-python2-graphite-web',
-        'python': '/home/coreops/bin/python',
-        'gunicorn': '/home/coreops/bin/gunicorn',
+        'packages': ['coreops-carbon-api'],
+        'python': '/opt/coreops-carbon/bin/python',
+        'python_lib': '/opt/coreops-carbon/lib',
+        'gunicorn': '/opt/coreops-carbon/bin/gunicorn',
         'rrd_dir': '/data/graphite/rrd',
         'log_dir': '/data/graphite/log/graphite-web',
         'index_file': '/data/graphite/graphite-web-index',
@@ -11,7 +12,9 @@
 
 {% set carbon = salt['grains.filter_by']({
     'RedHat': {
-        'python': '/home/coreops/bin/python',
+        'packages': ['coreops-carbon-api'],
+        'python': '/opt/coreops-carbon/bin/python',
+        'python_lib': '/opt/coreops-carbon/lib',
         'root_dir': '/opt/graphite',
         'conf_dir': '/opt/graphite/conf',
         'storage_dir': '/data/graphite',
@@ -24,10 +27,20 @@
 
 {% set carbon_relay = salt['grains.filter_by']({
     'RedHat': {
-        'python': '/home/coreops/bin/python',
+        'python': '/opt/coreops-carbon/bin/python',
+        'python_lib': '/opt/coreops-carbon/lib',
         'log_dir': '/data/graphite/log/carbon-cache',
         'pid_dir': '/data/graphite/run',
         'relay_method': 'consistent-hashing',
         'replication_factor': '1',
     },
 }, merge=salt['pillar.get']('carbon_relay:environment')) %}
+
+{% set graphite_api = salt['grains.filter_by']({
+    'RedHat': {
+        'python': '/opt/coreops-carbon/bin/python',
+        'python_lib': '/opt/coreops-carbon/lib',
+        'gunicorn': '/opt/coreops-carbon//bin/gunicorn',
+        'packages': ['coreops-carbon-api'],
+    },
+}, merge=salt['pillar.get']('graphite_api:environment')) %}

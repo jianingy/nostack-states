@@ -1,5 +1,12 @@
 {% from "nostack/graphite/map.jinja" import carbon with context -%}
 
+carbon_packages:
+  pkg.installed:
+    - pkgs:
+{%- for package in carbon.packages %}
+      - {{ package }}
+{% endfor -%}
+
 {{ carbon.storage_dir }}:
   file.directory:
     - makedirs: True
@@ -23,6 +30,12 @@
 /opt/graphite/conf/carbon.conf:
   file.managed:
     - source: salt://nostack/graphite/files/carbon.conf.template
+    - template: jinja
+    - mode: 644
+
+/opt/graphite/conf/storage-schemas.conf:
+  file.managed:
+    - source: salt://nostack/graphite/files/storage-schemas.conf.template
     - template: jinja
     - mode: 644
 
