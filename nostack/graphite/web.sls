@@ -48,6 +48,6 @@ syncdb:
     - mode: 0755
     - template: jinja
 
-/opt/coreops-carbon/lib/python2.7/site-packages/cairo/__init__.py:
+{{ graphiteweb.python_lib }}/python2.7/site-packages/cairo/__init__.py:
   file.managed:
     - source: salt://nostack/graphite/files/cairo_patch.py
