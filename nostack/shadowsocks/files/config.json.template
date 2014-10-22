@@ -1,0 +1,11 @@
+{
+    "server": "{{ salt['pillar.get']('shadowsocks:server', salt['grains.get']('ipv4')[0]) }}",
+    "server_port": {{ salt['pillar.get']('shadowsocks:server_port', '1080') }},
+    "local_address": "{{ salt['pillar.get']('shadowsocks:local_address', '127.0.0.1') }}",
+    "local_port": {{ salt['pillar.get']('shadowsocks:local_port', '1080') }},
+    "password": "{{ salt['pillar.get']('shadowsocks:password', 'me@shadowsocks') }}",
+    "timeout": {{ salt['pillar.get']('shadowsocks:timeout', 300) }},
+    "method": "{{ salt['pillar.get']('shadowsocks:method', 'aes-256-cfb') }}",
+    "fast_open": {{ salt['pillar.get']('shadowsocks:fast_opn', 'false') }},
+    "workers": {{ salt['pillar.get']('shadowsocks:workers', '8') }}
+}
